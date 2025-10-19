@@ -26,7 +26,7 @@ const CategoryNews = () => {
       <h2 className="font-semibold text-xl text-primary">
         Total <span className="text-secondary">{categoryNews.length}</span> news
         found.
-        <div>
+        <div className="space-y-4">
           {categoryNews.map((news) => (
             <NewsCard key={news.id} news={news}></NewsCard>
           ))}
