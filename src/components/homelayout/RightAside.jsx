@@ -10,7 +10,6 @@ const RightAside = () => {
       <SocialLogin></SocialLogin>
       <FindUs></FindUs>
       <Qzone></Qzone>
-      <Adds></Adds>
     </div>
   );
 };

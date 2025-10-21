@@ -1,9 +1,21 @@
-import React from "react";
-import { NavLink } from "react-router";
+import React, { use } from "react";
+import { Link, NavLink } from "react-router";
 import userImg from "../../assets/user.png";
-import navLogo from "../../assets/nav-logo.png"
+import navLogo from "../../assets/nav-logo.png";
+import { AuthContext } from "../../provider/AuthProvider";
 
 const NavBar = () => {
+  const { user, logout } = use(AuthContext);
+
+  const handleLogout = () => {
+    logout()
+      .then(() => {
+        console.log("Logout successful");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
   const links = (
     <>
       <li>
@@ -18,7 +30,7 @@ const NavBar = () => {
     </>
   );
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -46,6 +58,9 @@ const NavBar = () => {
             {links}
           </ul>
         </div>
+        <div>
+          <p>{user && user.email}</p>
+        </div>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 text-accent text-[1.125rem] space-x-4">
@@ -54,9 +69,21 @@ const NavBar = () => {
       </div>
       <div className="navbar-end flex gap-2.5">
         <img src={userImg} alt="" />
-        <a className="btn btn-primary font-semibold text-[1.25rem] px-10">
-          Login
-        </a>
+        {user ? (
+          <button
+            onClick={handleLogout}
+            className="btn btn-primary font-semibold text-[1.25rem] px-10"
+          >
+            LogOut
+          </button>
+        ) : (
+          <Link
+            to="/auth/login"
+            className="btn btn-primary font-semibold text-[1.25rem] px-10"
+          >
+            Login
+          </Link>
+        )}
       </div>
     </div>
   );

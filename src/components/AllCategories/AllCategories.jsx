@@ -8,6 +8,7 @@ const AllCategories = () => {
 
   return (
     <div>
+
       <h2 className="font-semibold text-xl text-primary">
         All Categories ({categories.length})
       </h2>
