@@ -1,13 +1,21 @@
-import React, { use } from "react";
-import { Link } from "react-router";
-import { AuthContext } from "../provider/AuthProvider";
+import React, { use, useState } from "react";
+import { Link, useNavigate } from "react-router";
+import { AuthContext } from "../provider/AuthContext";
 
 const Register = () => {
-  const { createUser, setUser } = use(AuthContext);
+  const { createUser, setUser, updateUser } = use(AuthContext);
+  const [nameError, setNameError] = useState("");
+  const navigate = useNavigate();
 
   const handleRegister = (e) => {
     e.preventDefault();
     const name = e.target.name.value;
+    if (!name.includes(" ")) {
+      setNameError("Name Should be in Tow Words");
+      return;
+    } else {
+      setNameError("");
+    }
     const photo = e.target.photo.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
@@ -18,11 +26,18 @@ const Register = () => {
     createUser(email, password)
       .then((result) => {
         const user = result.user;
-        console.log(user);
-        setUser(user);
+        // console.log(user);
+        updateUser({ displayName: name, photoURL: photo })
+          .then(() => {
+            setUser({ ...user, displayName: name, photoURL: photo });
+            navigate("/");
+          })
+          .catch((error) => {
+            console.log(error);
+            setUser(user);
+          });
       })
       .catch((error) => {
-        const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorMessage);
       });
@@ -41,8 +56,9 @@ const Register = () => {
               type="text"
               className="input"
               placeholder="Name"
+              required
             />
-
+            {nameError && <p className="text-error text-xs">{nameError}</p>}
             {/* photo */}
             <label className="label">PhotoURL</label>
             <input
@@ -50,6 +66,7 @@ const Register = () => {
               type="text"
               className="input"
               placeholder="PhotoURL"
+              required
             />
 
             {/* email */}
@@ -59,6 +76,7 @@ const Register = () => {
               type="email"
               className="input"
               placeholder="Email"
+              required
             />
 
             {/* password */}
@@ -68,9 +86,15 @@ const Register = () => {
               type="password"
               className="input"
               placeholder="Password"
+              required
             />
             <div className="flex items-center gap-2 mt-1">
-              <input name="check" type="checkbox" className="checkbox" />
+              <input
+                name="check"
+                type="checkbox"
+                className="checkbox"
+                required
+              />
               <p className="text-accent">
                 Accept <span className="font-semibold">Term & Conditions</span>
               </p>

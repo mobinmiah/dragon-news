@@ -2,14 +2,17 @@ import React from "react";
 import Header from "../../components/Header/Header";
 import LatestNews from "../../components/LatestNews/LatestNews";
 import NavBar from "../../components/NavBar/NavBar";
-import { Outlet } from "react-router";
+import { Outlet, useNavigation } from "react-router";
 import LeftAside from "../../components/homelayout/LeftAside";
 import RightAside from "../../components/homelayout/RightAside";
 import Adds from "../../components/homelayout/Adds";
+import Loading from "../../pages/Loading";
 
 const HomeLayout = () => {
+  const { state } = useNavigation();
   return (
     <div className="w-11/12 mx-auto my-3">
+
       <header>
         <Header></Header>
         <section className="my-4 ">
@@ -24,7 +27,7 @@ const HomeLayout = () => {
           <LeftAside></LeftAside>
         </aside>
         <section className="col-span-6">
-          <Outlet></Outlet>
+          {state=="loading" ? <Loading></Loading> : <Outlet></Outlet>}
         </section>
         <aside className="col-span-3 sticky top-2.5 h-fit">
           <RightAside></RightAside>

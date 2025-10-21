@@ -1,5 +1,4 @@
 import React from "react";
-import { FaEye, FaStar } from "react-icons/fa";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { Link } from "react-router";
 

@@ -8,9 +8,6 @@ const Loading = () => {
         <div className="absolute inset-3 rounded-full border-4 border-[#D72050] opacity-30"></div>
       </div>
 
-      <h2 className="text-2xl font-semibold tracking-wide animate-pulse">
-        Loading Dragon News...
-      </h2>
       <p className="text-sm text-gray-500 mt-2">
         Please wait while we breathe fire 🔥
       </p>
